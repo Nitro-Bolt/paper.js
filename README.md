@@ -2,13 +2,7 @@
 
 This is a fork of Paper.js with bug fixes and security hardening.
 
-Getting this fork to build on modern systems may be a challenge. As of March 2026, a viable development environment is known to be:
-
- - Linux
- - Node.js v18.20.8 (20 and later are known to not work due to old dependencies)
- - Run `npm test` to run the unit tests.
- - Use trusted publishing to release on npm.
- - Good luck!
+Our fork actually works with modern tooling and systems. You're welcome, guys.
 
 Original README.md below.
 
