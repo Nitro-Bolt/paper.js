@@ -87,17 +87,44 @@ var PointText = TextItem.extend(/** @lends PointText# */{
             leading = style.getLeading(),
             shadowColor = ctx.shadowColor;
         ctx.font = style.getFontStyle();
-        ctx.textAlign = style.getJustification();
+        var justification = style.getJustification(),
+            justify = justification === 'justify',
+            targetWidth = justify
+                    ? Math.max.apply(null, lines.map(function(line) {
+                        return ctx.measureText(line).width;
+                    }))
+                    : 0;
+        ctx.textAlign = justify ? 'left' : justification;
         for (var i = 0, l = lines.length; i < l; i++) {
             // See Path._draw() for explanation about ctx.shadowColor
             ctx.shadowColor = shadowColor;
-            var line = lines[i];
-            if (hasFill) {
-                ctx.fillText(line, 0, 0);
-                ctx.shadowColor = 'rgba(0,0,0,0)';
+            var line = lines[i],
+                words = justify && line.trim().split(/\s+/),
+                canJustify = words && words.length > 1;
+            if (canJustify) {
+                var wordsWidth = 0;
+                for (var j = 0; j < words.length; j++)
+                    wordsWidth += ctx.measureText(words[j]).width;
+                var spacing = (targetWidth - wordsWidth) / (words.length - 1),
+                    x = 0;
+                for (var j = 0; j < words.length; j++) {
+                    var word = words[j];
+                    if (hasFill) {
+                        ctx.fillText(word, x, 0);
+                        ctx.shadowColor = 'rgba(0,0,0,0)';
+                    }
+                    if (hasStroke)
+                        ctx.strokeText(word, x, 0);
+                    x += ctx.measureText(word).width + spacing;
+                }
+            } else {
+                if (hasFill) {
+                    ctx.fillText(line, 0, 0);
+                    ctx.shadowColor = 'rgba(0,0,0,0)';
+                }
+                if (hasStroke)
+                    ctx.strokeText(line, 0, 0);
             }
-            if (hasStroke)
-                ctx.strokeText(line, 0, 0);
             ctx.translate(0, leading);
         }
     },
@@ -116,7 +143,7 @@ var PointText = TextItem.extend(/** @lends PointText# */{
             width = this.getView().getTextWidth(style.getFontStyle(), lines),
             x = 0;
         // Adjust for different justifications.
-        if (justification !== 'left')
+        if (justification === 'center' || justification === 'right')
             x -= width / (justification === 'center' ? 2: 1);
         // Until we don't have baseline measuring, assume 1 / 4 leading as a
         // rough guess:
@@ -180,7 +207,7 @@ var PointText = TextItem.extend(/** @lends PointText# */{
         var y = bbox.y - halfStrokeWidth;
 
         // Adjust for different justifications.
-        if (justification !== 'left') {
+        if (justification === 'center' || justification === 'right') {
             var eltWidth = this.getView().getTextWidth(style.getFontStyle(), lines);
             x -= eltWidth / (justification === 'center' ? 2: 1);
         }

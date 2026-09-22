@@ -271,14 +271,32 @@ new function() {
                 formatter);
         node.setAttribute('font-size', item.fontSize);
         node.setAttribute('xml:space', 'preserve');
+        var justify = item.getJustification() === 'justify',
+            targetWidth = justify
+                    ? item.getView().getTextWidth(
+                        item._style.getFontStyle(), item._lines)
+                    : 0;
+        if (justify) {
+            node.setAttribute('data-paper-justification', 'justify');
+            node.setAttribute('text-anchor', 'start');
+        }
         for (var i = 0; i < item._lines.length; i++) {
             // Scratch-specific: Use <tspan> for multiline text,
             // right now only supports left justified (x=0)
-            var tspanNode = SvgElement.create('tspan', {
+            var line = item._lines[i],
+                attrs = {
                 x: '0',
                 dy: i === 0 ? '0' : item.getLeading() + 'px'
-            }, formatter);
-            tspanNode.textContent = item._lines[i] ? item._lines[i] : ' ';
+                };
+            var words = justify && line.trim().split(/\s+/);
+            if (words && words.length > 1) {
+                var lineWidth = item.getView().getTextWidth(
+                    item._style.getFontStyle(), [line]);
+                attrs['word-spacing'] =
+                    (targetWidth - lineWidth) / (words.length - 1);
+            }
+            var tspanNode = SvgElement.create('tspan', attrs, formatter);
+            tspanNode.textContent = line || ' ';
             node.appendChild(tspanNode);
         }
         return node;

@@ -151,7 +151,7 @@ var TextItem = Item.extend(/** @lends TextItem# */{
      *
      * @name TextItem#justification
      * @type String
-     * @values 'left', 'right', 'center'
+     * @values 'left', 'right', 'center', 'justify'
      * @default 'left'
      */
 

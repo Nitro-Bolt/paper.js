@@ -725,6 +725,9 @@ new function() {
                 // See importGroup() for an explanation of filtering for Group:
                 if (isElement && !(item instanceof Group))
                     item = applyAttributes(item, node, isRoot);
+                if (item instanceof PointText
+                        && node.getAttribute('data-paper-justification') === 'justify')
+                    item.setJustification('justify');
                 // Support onImportItem callback, to provide mechanism to handle
                 // special attributes (e.g. inkscape:transform-center)
                 var onImport = options.onImport;
