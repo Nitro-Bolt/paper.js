@@ -1,14 +1,15 @@
 {
-  "name": "@turbowarp/paper",
+  "name": "@nitro-bolt/paper",
   "version": "0.13.0",
-  "description": "paper.js fork",
+  "packageManager": "pnpm@10.33.0",
+  "description": "NitroBolt's Paper.js fork",
   "license": "MIT",
-  "homepage": "https://github.com/TurboWarp/paper.js",
+  "homepage": "https://github.com/Nitro-Bolt/paper.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TurboWarp/paper.js"
+    "url": "https://github.com/Nitro-Bolt/paper.js"
   },
-  "bugs": "https://github.com/TurboWarp/paper.js/issues",
+  "bugs": "https://github.com/Nitro-Bolt/paper.js/issues",
   "contributors": [
     "Jürg Lehni <juerg@scratchdisk.com> (http://scratchdisk.com)",
     "Jonathan Puckey <jonathan@puckey.studio> (http://studiomoniker.com)"
@@ -18,9 +19,6 @@
   "scripts": {
     "build": "gulp build",
     "dist": "gulp dist",
-    "zip": "gulp zip",
-    "docs": "gulp docs",
-    "load": "gulp load",
     "jshint": "gulp jshint",
     "test": "gulp test"
   },
@@ -33,16 +31,7 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=8.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "gulp jshint --ensure-branch develop",
-      "pre-push": "gulp test --ensure-branch develop"
-    }
-  },
-  "overrides": {
-    "graceful-fs": "^4.2.11"
+    "node": ">=20.0.0"
   },
   "browser": {
     "canvas": false,
@@ -54,40 +43,27 @@
   },
   "devDependencies": {
     "acorn": "0.5.0",
-    "canvas": "2.11.2",
-    "del": "4.1.1",
-    "gulp": "3.9.1",
-    "gulp-cached": "1.1.1",
-    "gulp-git-streamed": "2.10.1",
-    "gulp-jshint": "2.1.0",
-    "gulp-json-editor": "2.6.0",
+    "canvas": "^3.2.0",
+    "gulp": "^4.0.2",
+    "gulp-jshint": "^2.1.0",
     "gulp-prepro": "2.4.0",
-    "gulp-qunits": "2.1.2",
-    "gulp-rename": "1.4.0",
-    "gulp-shell": "0.8.0",
-    "gulp-symlink": "2.1.4",
-    "gulp-typescript": "5.0.1",
-    "gulp-uglify": "1.5.4",
+    "gulp-rename": "^2.0.0",
+    "gulp-terser": "^2.1.0",
     "gulp-uncomment": "0.3.0",
-    "gulp-util": "3.0.8",
-    "gulp-webserver": "0.9.1",
     "gulp-whitespace": "0.1.0",
-    "gulp-zip": "3.2.0",
-    "jsdom": "15.2.1",
-    "jshint": "2.13.6",
-    "jshint-summary": "0.4.0",
-    "merge-stream": "2.0.0",
-    "minimist": "1.2.8",
-    "mustache": "3.2.1",
+    "jsdom": "^26.1.0",
+    "jshint": "^2.13.6",
+    "minimist": "^1.2.8",
     "prepro": "2.4.0",
-    "qunitjs": "1.23.1",
-    "require-dir": "1.2.0",
-    "resemblejs": "3.2.5",
-    "run-sequence": "2.2.1",
-    "source-map-support": "0.5.21",
-    "stats.js": "0.17.0",
+    "source-map-support": "^0.5.21",
     "straps": "3.0.1",
-    "typescript": "4.9.5"
+    "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "canvas",
+      "es5-ext"
+    ]
   },
   "keywords": [
     "vector",
